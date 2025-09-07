@@ -1,478 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Azan — Products</title>
-  <meta name="description" content="Products listing by Azan" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Azan - Products</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
-    :root{
-      --bg: #000000;
-      --card: #0f0f11;
-      --muted: #9aa0a6;
-      --text: #e6eef6;
-      --accent: #00d1ff; /* neon cyan */
-      --accent2: #9b8cff; /* subtle indigo */
-      --danger: #ff6b6b;
-      --radius: 12px;
-      --gap: 16px;
-      --grid-min: 240px;
-      --glass: rgba(255,255,255,0.03);
-      --shadow: 0 8px 30px rgba(0,0,0,0.7);
-    }
-
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
+    body {
+      background:#fff;
+      color:#111;
+      font-family: Arial, sans-serif;
       margin:0;
-      font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: radial-gradient(800px 400px at 10% 10%, rgba(155,140,255,0.03), transparent),
-                  radial-gradient(900px 450px at 90% 90%, rgba(0,209,255,0.02), transparent),
-                  linear-gradient(180deg,#000 0%, #060606 100%);
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      padding-bottom:60px;
     }
-
-    /* Header */
     header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 60;
-      background: linear-gradient(180deg, rgba(10,10,12,0.9), rgba(10,10,12,0.6));
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-      backdrop-filter: blur(6px);
-      transform: translateY(0);
-      transition: transform 260ms cubic-bezier(.2,.9,.2,1), box-shadow 200ms;
+      position:sticky;
+      top:0;
+      background:#0d1b2a;
+      color:#fff;
+      padding:15px;
+      text-align:center;
+      font-size:22px;
+      font-weight:bold;
+      z-index:100;
     }
-    header.hidden { transform: translateY(-110%); box-shadow:none; }
-    .wrap{ max-width:1200px; margin:0 auto; padding:14px clamp(14px,3vw,28px); display:flex; align-items:center; gap:12px; justify-content:space-between; }
-    .brand { display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.5px; color:var(--text); }
-    .brand .badge{ width:38px; height:38px; border-radius:10px; display:grid; place-items:center; background: linear-gradient(135deg,var(--accent),var(--accent2)); color:#000; font-weight:900; }
-    nav{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-    .chip{ padding:8px 12px; border-radius:999px; background:var(--glass); color:var(--muted); font-size:13px; border:1px solid rgba(255,255,255,0.02); text-decoration:none; transition:all .15s; }
-    .chip:hover{ color:#000; background: linear-gradient(180deg,var(--accent),var(--accent2)); box-shadow: 0 6px 24px rgba(0,209,255,0.06); transform:translateY(-3px); }
-
-    /* Main */
-    main.wrap { display:block; padding-top:88px; } /* give space for fixed header */
-
-    .search-wrap { display:flex; justify-content:center; margin:18px 0 6px; }
-    .search {
-      width:100%; max-width:920px; display:flex; gap:8px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:999px; padding:8px; align-items:center; box-shadow: var(--shadow);
-      border:1px solid rgba(255,255,255,0.02);
+    .hero {
+      text-align:center;
+      padding:30px;
+      font-size:26px;
+      font-weight:bold;
+      color:#0d6efd;
     }
-    .search input {
-      flex:1; background:transparent; border:0; outline:0; color:var(--text); font-size:16px;
-      padding:10px 12px;
+    .search-bar {
+      text-align:center;
+      margin:20px;
     }
-    .search .hint { color:var(--muted); font-size:13px; padding:6px 12px; border-radius:999px; background:rgba(255,255,255,0.02); }
-
-    section { margin:28px 0; padding:18px; border-radius:14px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00)); }
-    .sec-title { display:flex; align-items:center; gap:12px; font-size:18px; margin:0 0 10px; color:var(--accent); }
-    .sec-sub{ margin:0 0 14px; color:var(--muted); font-size:13px; }
-
-    .grid{ display:grid; gap:var(--gap); grid-template-columns: repeat(auto-fill, minmax(var(--grid-min), 1fr)); }
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
-      border: 1px solid rgba(255,255,255,0.03);
-      padding:14px; border-radius:12px; cursor:pointer; transition: transform .14s ease, box-shadow .14s ease;
-      display:flex; flex-direction:column; gap:10px; min-height:72px;
+    .search-bar input {
+      padding:12px;
+      width:70%;
+      border:2px solid #0d6efd;
+      border-radius:25px;
+      font-size:16px;
+      outline:none;
     }
-    .card:hover{ transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.7); border-color: rgba(0,209,255,0.12); }
-    .card .title{ font-weight:700; color:var(--text); font-size:15px; }
-    .card .meta{ color:var(--muted); font-size:13px; margin-top:auto; }
-
+    section {
+      margin:30px auto;
+      max-width:1100px;
+      padding:20px;
+    }
+    h2 {
+      color:#0d6efd;
+      border-bottom:2px solid #0d6efd;
+      padding-bottom:5px;
+      margin-bottom:20px;
+    }
+    .grid {
+      display:grid;
+      gap:15px;
+      grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    }
+    .card {
+      padding:15px;
+      border:1px solid #0d6efd;
+      border-radius:12px;
+      cursor:pointer;
+      text-align:center;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+      transition:0.2s;
+    }
+    .card:hover {
+      transform:translateY(-5px);
+      background:#f0f8ff;
+    }
+    footer {
+      margin-top:50px;
+      background:#0d1b2a;
+      color:#fff;
+      text-align:center;
+      padding:15px;
+    }
     /* modal */
-    .modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; place-items:center; z-index:120; }
-    .modal-backdrop.show{ display:grid; }
-    .modal{
-      width:92%; max-width:540px; background:linear-gradient(180deg,#071018, #0b0f14); border-radius:12px; padding:18px; border:1px solid rgba(255,255,255,0.04);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    #modal {
+      position:fixed;
+      top:0;left:0;
+      width:100%;height:100%;
+      display:none;
+      background:rgba(0,0,0,0.6);
+      align-items:center;
+      justify-content:center;
+      z-index:200;
     }
-    .modal h3{ margin:0 0 8px; color:var(--accent); }
-    .modal p{ margin:0 0 14px; color:var(--text); }
-    .modal .actions{ display:flex; gap:10px; justify-content:flex-end; margin-top:10px; }
-    .btn{
-      padding:10px 14px; border-radius:10px; font-weight:700; cursor:pointer; border:0; font-size:14px;
+    #modal .box {
+      background:#fff;
+      padding:20px;
+      border-radius:12px;
+      max-width:340px;
+      text-align:center;
     }
-    .btn.primary{ background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#000; }
-    .btn.ghost{ background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--text); }
-    .btn.email{ background:linear-gradient(90deg,#7f7cff,#ff9bb3); color:#000; }
-
-    /* contact area */
-    #contact { margin-top:22px; padding:16px; border-radius:12px; background: rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.02); }
-    #contact label{ display:block; color:var(--muted); font-size:13px; margin-bottom:8px; }
-    #waInput{ width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:var(--text); }
-    #contact .actions { margin-top:10px; display:flex; gap:8px; justify-content:flex-end; }
-
-    footer{ margin-top:40px; padding:18px 14px; color:var(--muted); text-align:center; border-top:1px solid rgba(255,255,255,0.02); }
-
-    @media (max-width:720px){
-      :root{ --grid-min: 180px; }
-      .search input{ font-size:15px }
-      .wrap{ padding:12px }
+    #modal button {
+      margin:8px;
+      padding:10px 14px;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:bold;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:15px;
     }
+    .yes {background:#0d6efd;color:#fff;}
+    .no {background:#ddd;}
+    .email {background:#198754;color:#fff;}
+    .yes i {color:#fff;}
+    .email i {color:#fff;}
   </style>
 </head>
 <body>
+<header>Azan</header>
 
-  <header id="header">
-    <div class="wrap">
-      <div class="brand">
-        <div class="badge">A</div>
-        <div>
-          <div style="font-size:15px">Azan Store</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px">All Products — by Azan</div>
-        </div>
-      </div>
+<div class="hero">Order Any Product For Free (Love From Azan)</div>
 
-      <nav aria-label="Sections">
-        <a class="chip" href="#Graphics">Graphics</a>
-        <a class="chip" href="#Courses">Courses</a>
-        <a class="chip" href="#Software">Software</a>
-        <a class="chip" href="#Data">Data</a>
-        <a class="chip" href="#SEO">SEO</a>
-        <a class="chip" href="#Spotify">Spotify</a>
-      </nav>
-    </div>
-  </header>
+<div class="search-bar">
+  <input type="text" id="search" placeholder="Search products...">
+</div>
 
-  <main class="wrap" id="app">
-    <div class="search-wrap">
-      <div class="search" role="search" aria-label="Search products">
-        <input id="search" placeholder="Search products — type 1 or more words (e.g. 'canva templates' or 'hotmail creator')" aria-label="Search products" />
-        <div class="hint">Press Esc to clear</div>
-      </div>
-    </div>
+<main>
+  <section id="Graphics"><h2>Graphics</h2><div class="grid"></div></section>
+  <section id="Courses"><h2>Courses</h2><div class="grid"></div></section>
+  <section id="Software"><h2>Software</h2><div class="grid"></div></section>
+  <section id="Data"><h2>Data</h2><div class="grid"></div></section>
+  <section id="SEO"><h2>SEO</h2><div class="grid"></div></section>
+  <section id="Tools"><h2>Tools</h2><div class="grid"></div></section>
+</main>
 
-    <!-- Sections -->
-    <section id="Graphics">
-      <div class="sec-title">Graphics</div>
-      <div class="sec-sub">Graphics, Assets & Templates by Azan</div>
-      <div class="grid" role="list"></div>
-    </section>
+<footer>© <span id="year"></span> Azan | Built with ❤</footer>
 
-    <section id="Courses">
-      <div class="sec-title">Courses</div>
-      <div class="sec-sub">Courses & Learning Packs by Azan</div>
-      <div class="grid" role="list"></div>
-    </section>
-
-    <section id="Software">
-      <div class="sec-title">Software</div>
-      <div class="sec-sub">Software & Tools by Azan</div>
-      <div class="grid" role="list"></div>
-    </section>
-
-    <section id="Data">
-      <div class="sec-title">Data</div>
-      <div class="sec-sub">Data, Scripts & Utilities by Azan</div>
-      <div class="grid" role="list"></div>
-    </section>
-
-    <section id="SEO">
-      <div class="sec-title">SEO</div>
-      <div class="sec-sub">SEO & Marketing Tools by Azan</div>
-      <div class="grid" role="list"></div>
-    </section>
-
-    <section id="Spotify">
-      <div class="sec-title">Spotify</div>
-      <div class="sec-sub">Spotify Tools Pack by Azan</div>
-      <div class="grid" role="list"></div>
-    </section>
-
-    <!-- Contact area (bottom) -->
-    <section id="contact">
-      <label for="waInput">Quick message (this will be prefixed with: <strong>Hey Azan, I'm Interested In</strong>)</label>
-      <input id="waInput" placeholder="e.g. 5000+ Canva Templates" />
-      <div class="actions">
-        <button class="btn primary" id="contactWa">Send on WhatsApp</button>
-        <button class="btn email" id="contactMail">Send Email</button>
-      </div>
-      <div style="margin-top:10px;color:var(--muted);font-size:13px;">WhatsApp & Email both available — ya order card se bhi kar sakte ho.</div>
-    </section>
-
-    <footer>
-      © <span id="year"></span> Azan — All rights reserved. Built with ♥ by Azan.
-    </footer>
-  </main>
-
-  <!-- Modal -->
-  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <h3 id="modalTitle">Order this product?</h3>
-      <p id="modalProductName" style="font-weight:700;color:var(--text);"></p>
-      <div style="color:var(--muted);font-size:14px;">Aap is product ko WhatsApp ya Email se order kar sakte hain.</div>
-
-      <div class="actions" style="margin-top:14px;">
-        <button class="btn ghost" id="modalNo">No</button>
-        <button class="btn email" id="modalEmail">Email</button>
-        <button class="btn primary" id="modalYes">Yes (WhatsApp)</button>
-      </div>
-    </div>
+<!-- Modal -->
+<div id="modal">
+  <div class="box">
+    <p id="modalText"></p>
+    <button class="yes" onclick="orderYes()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+    <button class="no" onclick="closeModal()"><i class="fas fa-times"></i> Cancel</button>
+    <button class="email" onclick="orderEmail()"><i class="fas fa-envelope"></i> Email</button>
   </div>
+</div>
 
-  <script>
-    // ========= CONFIG =========
-    const CONTACTS = {
-      whatsapp: "03469531271",
-      email: "mwahab4255@gmail.com"
-    };
+<script>
+const CONTACTS = {
+  whatsapp: "03469531271",
+  email: "mwahab4255@gmail.com"
+};
 
-    // ========= FULL PRODUCTS (unchanged — your original complete lists) =========
-    const PRODUCTS = {
-      Graphics: [
-        "700+ GB Graphics + Assets Bundle",
-        "800+ GB Graphics Bundle",
-        "300 GB+ Graphic Designing Data",
-        "25,000+ Fonts – Premium Bundle",
-        "Fonts 2021 & Latest Collections",
-        "1000+ PSD Graphics Data",
-        "Festival Templates",
-        "5000+ Canva Templates",
-        "500+ Landing Page Elementor Templates",
-        "Visiting Cards, Letterheads, Logos, etc.",
-        "CV/Resume Templates",
-        "Premium Real Estate Banner Package",
-        "Grocery, Education, Dental & Restaurant Banner Packages",
-        "Photoshop Templates & Actions",
-        "Motion Graphics (After Effects)",
-        "UI/UX Elements Pack",
-        "Studio Pack Elements & Lights Collection",
-        "HD Infographics & Animated Slides",
-        "Business Banners, Flyers, Brochures",
-        "Wedding Album Resources",
-        "Coral Draw Cliparts",
-        "Clip Arts (CDR/PNG/TIFF)",
-        "Backgrounds & Wallpapers",
-        "500+ Canva Meta Ads Templates"
-      ],
-      Courses: [
-        "200+ Premium Paid Courses",
-        "1000+ Paid Courses Mega Pack",
-        "Shahid Anwar All Courses (Amazon, Shopify, Wholesale FBA, ASP.NET, MVC, Global FBA)",
-        "Waqar Zaka Crypto Paid Course",
-        "Ethical H@cking & Mobile H@cking Complete Course",
-        "2D/3D Animation & Cartoon Making Course",
-        "Android App Development – Zero to Hero",
-        "YouTube SEO & Growth Paid Courses (Kashif Majeed & Others)",
-        "Blogging Paid Courses (Hisham Sarwar, Shafique Jaffry, Top4U etc.)",
-        "Graphic Designing Master Course + Adobe Illustrator + Photoshop",
-        "Forex Trading Courses",
-        "Game Development Courses",
-        "Software Development Courses",
-        "Programming Languages Pack (Intro to Advanced)",
-        "Facebook Ads Courses (Hamza Ali & Others)",
-        "TikTok Video Ads Course",
-        "YouTube Complete Course + Subscribers Growth",
-        "Digital Marketing Premium Courses",
-        "Amazon Affiliate Marketing Course",
-        "WordPress Web Development Course",
-        "Daraz Complete Course",
-        "Fiverr + Upwork Freelancing Courses",
-        "Content Writing & Copywriting Courses",
-        "Canva Complete Course",
-        "Google Ads & Social Media Marketing Course",
-        "Money Making & Traffic Generation Courses"
-      ],
-      Software: [
-        "All Adobe Software (2023 Full Pack)",
-        "Adobe Premiere Pro & Filmora 11 Pre-Activated",
-        "WordPress Premium Plugins & Themes",
-        "Blogger Premium Templates",
-        "Windows 10 & 11 Pro Activation Keys",
-        "WhatsApp Bulk Sender",
-        "All India Database Updated",
-        "Unlimited Google Drive Method",
-        "Unlimited Gmail Creation Method",
-        "Link in Bio Templates",
-        "Virtual Backgrounds (Zoom etc.)"
-      ],
-      Data: [
-        "Sale Message Script + Templates",
-        "LinkedIn Message Scripts",
-        "Instagram DM Templates",
-        "Email Marketing Pack",
-        "Lead Nurture Templates",
-        "Local Ads Formula",
-        "Viral Hooks + Viral Hooks Videos",
-        "Workbook Social Media Branding Templates",
-        "30,000+ Social Media Post Bundle",
-        "10M+ Articles Database",
-        "2000+ Android App Source Codes",
-        "YouTube Shorts + Long Video Viral Methods",
-        "100 TB+ Data Mega Bundle"
-      ],
-      SEO: [
-        "Hotmail Account Creator",
-        "JitBit Macro Recorder 5.6.4.0",
-        "SEO Machine Pro",
-        "Socinator Dominator Enterprise v1.0.0.79",
-        "Traffic King 2.0.0",
-        "Wiki Bomber 1.0.7.17",
-        "Answereye Ultimate 5.4",
-        "Article Architect / Article Kevo / Article Submitters",
-        "ArticleBot 2.0",
-        "AutoBlog Samurai Pro",
-        "AutomateBOOK 2.6.0",
-        "Backlink Power Indexer / Profit Monster / Shark / Skyrocket / Topia Pro",
-        "Backpage Autoposter",
-        "Blogger ZonPoster 2.9.9",
-        "Bookmarking Demon 5.6.1.3",
-        "Brute Force SEO EVO2",
-        "Captcha Infinity 0.4.0.3",
-        "Content Samurai / Content Mania / Content Spiffer",
-        "CPA Blaster",
-        "Craigslist Mailer 2.0.1.0",
-        "Craigslist Black Magic 8.2",
-        "Directory Submitter 4.0",
-        "Facebook Account Creator 3.0",
-        "Facebook Blaster Pro 11",
-        "GSA Email Spider 5.30"
-      ],
-      Spotify: [
-        "Spotify Brute Checker (ACTEAM, Asaka, DJR, KniX, N.to etc.)",
-        "Spotify Spectrum Cracker",
-        "Spotify Account Creator",
-        "SPOTIFX Brute Forcer",
-        "Spotify Utilities Pack"
-      ]
-    };
+const PRODUCTS = {
+  Graphics: [
+    "700+ GB Graphics + Assets Bundle",
+    "800+ GB Graphics Bundle",
+    "300 GB+ Graphic Designing Data",
+    "25,000+ Fonts – Premium Bundle",
+    "Fonts 2021 & Latest Collections",
+    "1000+ PSD Graphics Data",
+    "Festival Templates",
+    "5000+ Canva Templates",
+    "500+ Landing Page Elementor Templates",
+    "Visiting Cards, Letterheads, Logos, etc.",
+    "CV/Resume Templates",
+    "Premium Real Estate Banner Package",
+    "Grocery, Education, Dental & Restaurant Banner Packages",
+    "Photoshop Templates & Actions",
+    "Motion Graphics (After Effects)",
+    "UI/UX Elements Pack",
+    "Studio Pack Elements & Lights Collection",
+    "HD Infographics & Animated Slides",
+    "Business Banners, Flyers, Brochures",
+    "Wedding Album Resources",
+    "Coral Draw Cliparts",
+    "Clip Arts (CDR/PNG/TIFF)",
+    "Backgrounds & Wallpapers",
+    "500+ Canva Meta Ads Templates"
+  ],
+  Courses: [
+    "200+ Premium Paid Courses",
+    "1000+ Paid Courses Mega Pack",
+    "Shahid Anwar All Courses (Amazon, Shopify, Wholesale FBA, ASP.NET, MVC, Global FBA)",
+    "Waqar Zaka Crypto Paid Course",
+    "Ethical H@cking & Mobile H@cking Complete Course",
+    "2D/3D Animation & Cartoon Making Course",
+    "Android App Development – Zero to Hero",
+    "YouTube SEO & Growth Paid Courses",
+    "Blogging Paid Courses",
+    "Graphic Designing Master Course + Adobe Illustrator + Photoshop",
+    "Forex Trading Courses",
+    "Game Development Courses",
+    "Software Development Courses",
+    "Programming Languages Pack (Intro to Advanced)",
+    "Facebook Ads Courses",
+    "TikTok Video Ads Course",
+    "YouTube Complete Course + Subscribers Growth",
+    "Digital Marketing Premium Courses",
+    "Amazon Affiliate Marketing Course",
+    "WordPress Web Development Course",
+    "Daraz Complete Course",
+    "Fiverr + Upwork Freelancing Courses",
+    "Content Writing & Copywriting Courses",
+    "Canva Complete Course",
+    "Google Ads & Social Media Marketing Course",
+    "Money Making & Traffic Generation Courses"
+  ],
+  Software: [
+    "All Adobe Software (2023 Full Pack)",
+    "Adobe Premiere Pro & Filmora 11 Pre-Activated",
+    "WordPress Premium Plugins & Themes",
+    "Blogger Premium Templates",
+    "Windows 10 & 11 Pro Activation Keys",
+    "WhatsApp Bulk Sender",
+    "All India Database Updated",
+    "Unlimited Google Drive Method",
+    "Unlimited Gmail Creation Method",
+    "Link in Bio Templates",
+    "Virtual Backgrounds (Zoom etc.)"
+  ],
+  Data: [
+    "Sale Message Script + Templates",
+    "LinkedIn Message Scripts",
+    "Instagram DM Templates",
+    "Email Marketing Pack",
+    "Lead Nurture Templates",
+    "Local Ads Formula",
+    "Viral Hooks + Viral Hooks Videos",
+    "Workbook Social Media Branding Templates",
+    "30,000+ Social Media Post Bundle",
+    "10M+ Articles Database",
+    "2000+ Android App Source Codes",
+    "YouTube Shorts + Long Video Viral Methods",
+    "100 TB+ Data Mega Bundle"
+  ],
+  SEO: [
+    "Hotmail Account Creator",
+    "JitBit Macro Recorder 5.6.4.0",
+    "SEO Machine Pro",
+    "Socinator Dominator Enterprise v1.0.0.79",
+    "Traffic King 2.0.0",
+    "Wiki Bomber 1.0.7.17",
+    "Answereye Ultimate 5.4",
+    "Article Architect / Article Kevo / Article Submitters",
+    "ArticleBot 2.0",
+    "AutoBlog Samurai Pro",
+    "AutomateBOOK 2.6.0",
+    "Backlink Power Indexer / Profit Monster / Shark / Skyrocket / Topia Pro",
+    "Backpage Autoposter",
+    "Blogger ZonPoster 2.9.9",
+    "Bookmarking Demon 5.6.1.3",
+    "Brute Force SEO EVO2",
+    "Captcha Infinity 0.4.0.3",
+    "Content Samurai / Content Mania / Content Spiffer",
+    "CPA Blaster",
+    "Craigslist Mailer 2.0.1.0",
+    "Craigslist Black Magic 8.2",
+    "Directory Submitter 4.0",
+    "Facebook Account Creator 3.0",
+    "Facebook Blaster Pro 11",
+    "GSA Email Spider 5.30"
+  ],
+  Tools: [
+    "Spotify Brute Checker (ACTEAM, Asaka, DJR, KniX, N.to etc.)",
+    "Spotify Spectrum Cracker",
+    "Spotify Account Creator",
+    "SPOTIFX Brute Forcer",
+    "Spotify Utilities Pack"
+  ]
+};
 
-    // ========= RENDER =========
-    function makeCard(category, name){
-      const el = document.createElement('div');
-      el.className = 'card';
-      el.tabIndex = 0;
-      el.setAttribute('role','button');
-      el.dataset.product = name;
-      el.dataset.category = category;
-      el.innerHTML = `<div class="title">${escapeHtml(name)}</div><div class="meta">${escapeHtml(category)} — by Azan</div>`;
-      return el;
-    }
+let selectedProduct = "";
 
-    function renderAll(){
-      for(const cat in PRODUCTS){
-        const grid = document.querySelector(`#${cat} .grid`);
-        grid.innerHTML = '';
-        PRODUCTS[cat].forEach(name => grid.appendChild(makeCard(cat, name)));
-      }
-      document.getElementById('year')?.textContent = new Date().getFullYear();
-    }
-    renderAll();
-
-    // ========= SEARCH (multi-word AND) =========
-    const searchInput = document.getElementById('search');
-    function normalize(s){ return String(s || '').toLowerCase().replace(/[^\w\s\-+]/g,' ').replace(/\s+/g,' ').trim(); }
-
-    function performSearch(){
-      const q = normalize(searchInput.value);
-      if(!q){
-        // show all
-        document.querySelectorAll('.card').forEach(c => c.style.display = '');
-        return;
-      }
-      const terms = q.split(' ').filter(Boolean);
-      document.querySelectorAll('.card').forEach(card=>{
-        const text = normalize(card.dataset.product + ' ' + card.dataset.category);
-        // match if ALL terms are present (AND)
-        const ok = terms.every(t => text.includes(t));
-        card.style.display = ok ? '' : 'none';
-      });
-    }
-
-    searchInput.addEventListener('input', performSearch);
-    // quick clear on Esc
-    searchInput.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape'){ searchInput.value=''; performSearch(); searchInput.blur(); }
+function render() {
+  for (const cat in PRODUCTS) {
+    const grid = document.querySelector(`#${cat} .grid`);
+    PRODUCTS[cat].forEach(p => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.textContent = p;
+      card.onclick = () => openModal(p);
+      grid.appendChild(card);
     });
+  }
+  document.getElementById("year").textContent = new Date().getFullYear();
+}
+render();
 
-    // ========= HEADER HIDE ON SCROLL DOWN =========
-    let lastScroll = 0;
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', ()=>{
-      const s = window.scrollY || window.pageYOffset;
-      if(s > lastScroll && s > 80){ // scrolling down
-        header.classList.add('hidden');
-      } else {
-        header.classList.remove('hidden'); // scrolling up or near top
-      }
-      lastScroll = s <= 0 ? 0 : s;
-    }, { passive:true });
+// search bar (multi-word)
+document.getElementById("search").addEventListener("input", e => {
+  const val = e.target.value.toLowerCase().split(" ");
+  document.querySelectorAll(".card").forEach(c => {
+    const text = c.textContent.toLowerCase();
+    c.style.display = val.every(w => text.includes(w)) ? "block" : "none";
+  });
+});
 
-    // ========= MODAL ACTIONS =========
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const modalProductName = document.getElementById('modalProductName');
-    let currentProduct = null;
-    let currentCategory = null;
-
-    // open modal on product click
-    document.addEventListener('click', (e)=>{
-      const card = e.target.closest('.card');
-      if(!card) return;
-      currentProduct = card.dataset.product;
-      currentCategory = card.dataset.category;
-      modalProductName.textContent = `${currentProduct} (${currentCategory})`;
-      modalBackdrop.classList.add('show');
-      modalBackdrop.setAttribute('aria-hidden','false');
-      // lock focus
-      document.body.style.overflow = 'hidden';
-    });
-
-    // Modal buttons
-    document.getElementById('modalNo').addEventListener('click', ()=>{
-      modalBackdrop.classList.remove('show');
-      modalBackdrop.setAttribute('aria-hidden','true');
-      document.body.style.overflow = '';
-    });
-
-    document.getElementById('modalYes').addEventListener('click', ()=>{
-      if(!currentProduct) return;
-      const msg = encodeURIComponent(`Hey Azan, I'm Interested In "${currentProduct}" (${currentCategory}).`);
-      const url = `https://wa.me/${encodeURIComponent(CONTACTS.whatsapp)}?text=${msg}`;
-      // open WhatsApp
-      window.open(url, '_blank', 'noopener');
-      // close modal
-      modalBackdrop.classList.remove('show');
-      document.body.style.overflow = '';
-    });
-
-    document.getElementById('modalEmail').addEventListener('click', ()=>{
-      if(!currentProduct) return;
-      const subject = encodeURIComponent(`Product Inquiry: ${currentProduct} (${currentCategory})`);
-      const body = encodeURIComponent(`Hi Azan,\n\nI'm interested in "${currentProduct}" under ${currentCategory}.\nPlease share details and price.\n\nThanks,\n`);
-      window.location.href = `mailto:${CONTACTS.email}?subject=${subject}&body=${body}`;
-      modalBackdrop.classList.remove('show');
-      document.body.style.overflow = '';
-    });
-
-    // close modal when clicking backdrop (outside modal)
-    modalBackdrop.addEventListener('click', (e)=>{
-      if(e.target === modalBackdrop){
-        modalBackdrop.classList.remove('show');
-        document.body.style.overflow = '';
-      }
-    });
-
-    // Keyboard: Esc closes modal
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape'){
-        modalBackdrop.classList.remove('show');
-        document.body.style.overflow = '';
-      }
-    });
-
-    // ========= BOTTOM CONTACT quick actions =========
-    document.getElementById('contactWa').addEventListener('click', ()=>{
-      const val = (document.getElementById('waInput').value || '').trim();
-      if(!val){ alert('Kia cheez chiye? Thoda likho.'); return; }
-      const msg = encodeURIComponent(`Hey Azan, I'm Interested In ${val}`);
-      window.open(`https://wa.me/${encodeURIComponent(CONTACTS.whatsapp)}?text=${msg}`, '_blank', 'noopener');
-    });
-    document.getElemen
+// modal functions
+function openModal(product) {
+  selectedProduct = product;
+  document.getElementById("modalText").textContent = `Order this product: ${product}?`;
+  document.getElementById("modal").style.display = "flex";
+}
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+function orderYes() {
+  const msg = encodeURIComponent("Hey Azan, I'm Interested In " + selectedProduct);
+  window.open(`https://wa.me/${CONTACTS.whatsapp}?text=${msg}`, "_blank");
+  closeModal();
+}
+function orderEmail() {
+  window.location.href = `mailto:${CONTACTS.email}?subject=Order Inquiry&body=Hey Azan, I'm Interested In ${selectedProduct}`;
+  closeModal();
+}
+</script>
+</body>
+</html>
